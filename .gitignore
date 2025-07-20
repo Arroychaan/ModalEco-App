@@ -1,0 +1,9 @@
+# .gitignore file
+
+# Environments
+.env
+*.pyc
+__pycache__/
+
+# Credentials
+firebase-credentials.json

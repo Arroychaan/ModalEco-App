@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}{{ asset.name }}{% endblock %}
+{% block content %}
+    <a href="{{ url_for('main.dashboard') }}">&larr; Kembali ke Dashboard</a>
+    <h2 class="mt-2">{{ asset.name }}</h2>
+    <p class="text-muted">{{ asset.description }}</p>
+    <hr>
+
+    <h4>Progres Pendanaan</h4>
+    <p>
+        {# Format angka sudah diperbaiki #}
+        <strong>Rp{{ asset.total_raised|round(0) }}</strong> terkumpul dari target 
+        <strong>Rp{{ asset.total_cost|round(0) }}</strong>
+    </p>
+    <div class="progress mb-4" style="height: 25px;">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
+             style="width: {{ asset.progress_percentage|round(2) }}%;" 
+             aria-valuenow="{{ asset.progress_percentage }}" aria-valuemin="0" aria-valuemax="100">
+             {{ asset.progress_percentage|round(2) }}%
+        </div>
+    </div>
+
+    <h4>Investasi Sekarang</h4>
+
+    <div class="alert alert-info">
+        Saldo Anda yang tersedia: <strong>Rp{{ user_balance|round(0) }}</strong>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('main.contribute', asset_id=asset.id) }}">
+                <div class="mb-3">
+                    <label class="form-label">Jumlah Kontribusi (Rp)</label>
+                    <input type="number" name="amount" class="form-control" placeholder="Contoh: 500000" required>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Kirim Kontribusi dari Saldo</button>
+            </form>
+        </div>
+    </div>
+
+    {% endblock %}

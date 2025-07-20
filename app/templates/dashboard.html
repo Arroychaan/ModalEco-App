@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h3 class="mb-4">Selamat Datang, {{ user.username }}!</h3>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h6 class="card-title">SALDO ANDA</h6>
+                    <h4 class="card-text">Rp{{ stats.balance|round(2) }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h6 class="card-title">TOTAL INVESTASI</h6>
+                    <h4 class="card-text">Rp{{ stats.total_investment|round(2) }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h6 class="card-title">ASET DIIKUTI</h6>
+                    <h4 class="card-text">{{ stats.asset_count }} Aset</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <h4>Investasi Saya</h4>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Nama Aset</th>
+                    <th scope="col">Jumlah Kontribusi</th>
+                    <th scope="col">Persentase Kepemilikan</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in my_contributions %}
+                <tr>
+                    <td>{{ c.asset_name }}</td>
+                    <td>Rp{{ c.amount_contributed|round(2) }}</td>
+                    <td>{{ c.ownership_percentage|round(2) }}%</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="text-center">Anda belum memiliki investasi.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <hr class="my-4">
+
+    <h4>Peluang Investasi Baru</h4>
+    <div class="row">
+        {% for asset in assets %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ asset.name }}</h5>
+                    <p class="card-text text-muted">{{ asset.description[:80] }}...</p>
+                    <a href="{{ url_for('main.asset_detail', asset_id=asset.id) }}" class="btn btn-outline-primary">Lihat Detail</a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12">
+            <p class="text-center">Saat ini belum ada peluang investasi baru.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

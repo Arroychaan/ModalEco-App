@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Buat Aset Baru{% endblock %}
+{% block content %}
+    <h2>Buat Aset Investasi Baru</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Nama Aset</label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Deskripsi</label>
+            <textarea name="description" class="form-control" rows="3" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Total Biaya (Rp)</label>
+            <input type="number" name="total_cost" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Simpan Aset</button>
+    </form>
+{% endblock %}
